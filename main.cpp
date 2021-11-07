@@ -12,8 +12,8 @@ Dla zadanej tablicy liczb calkowitych przesun wszystkie elementy mniejsze od 0 n
 #include <vector>
 #include <chrono>
 #include <random>
-#include <fstream>
 #include <sstream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -35,45 +35,45 @@ vector<int> selection_v1(vector<int> arr){
 }
 //algorytm - druga realizacja naiwna
 vector<int> selection_v2(const vector<int>& arr){
-    vector<int> arr_plus;
-    vector<int> arr_minus;
+    vector<int> arr_plus; //tablica liczb nieujemnych
+    vector<int> arr_minus; //tablica liczb ujemnych
 
-    for(int i : arr){
+    for(int i : arr){ //dodawanie liczb nieujemnych do tablicy arr_plus
         if(i >= 0){
             arr_plus.push_back(i);
         }
-        else {
+        else { // dodawanie liczb ujemnych do tablicy arr_minus
             arr_minus.push_back(i);
         }
     }
-    for(int i : arr_minus){
+    for(int i : arr_minus){ //dodawanie liczb z tablicy arr_minus do tablicy arr_plus
         arr_plus.push_back(i);
     }
-    return arr_plus;
+    return arr_plus; //zwracanie tablicy wyjsciowej
 }
 
 //funkcja obliczajaca czas wykonania algorytmu
-double timer(const vector<int>& arr,const vector<int>&algorithm,int count){
-    double sum = 0;
+double timer(const vector<int>& arr,const function<vector<int>(vector<int>)> algorithm,int count){
+    double sum = 0; //zmienna dla sumy czasow wykonania algorytmu
     for(int i = 0; i <= count; i++){
-        auto startA = chrono::steady_clock::now();
-        selection_v1(arr);
-        auto stopA = chrono::steady_clock::now();
-        auto durationA = stopA - startA;
-        sum += chrono::duration<double, nano> (durationA).count();
+        auto startA = chrono::steady_clock::now(); //start zegara
+        algorithm(arr); // wybrany wczesniej algorytm
+        auto stopA = chrono::steady_clock::now(); //stop zegara
+        auto durationA = stopA - startA; //roznica czasow
+        sum += chrono::duration<double, nano> (durationA).count(); //zmiennoprzecinkowe zapisanie do zmiennej
     }
-    return sum/count;
+    return sum/count; //zwracanie sredniej czasow
 }
 
 //funkcja generujaca tablice z losowymi liczbami calkowitymi
 vector<int> array_generator(int count){
-    random_device generator;
-    uniform_int_distribution<int> myUnifIntDist(-100,100);
     vector<int> arr;
-    for(int i = 0; i <= count-1; i++){
+    random_device generator; //obiekt klasy random_device
+    uniform_int_distribution<int> myUnifIntDist(-100,100); //nadanie przedzialu liczb
+    for(int i = 0; i <= count-1; i++){ //dodawanie losowych elementow z przedzialu
         arr.push_back(myUnifIntDist(generator));
     }
-    return arr;
+    return arr; //zwrocenie tablicy
 }
 
 //funkcja wyswietlajaca podana tablice
@@ -90,18 +90,18 @@ void array_display(const vector<int>& arr){
 
 //funkcja tworzaca tablice wedle uznania
 vector<int> array_by_user(){
-    int count;
-    int element;
+    int count; //zmienna rozmiaru tablicy
+    int element;//zmienna elementu
     vector<int> arr_user;
     cout << "Podaj ilosc liczb do stworzenia tablicy: ";
     cin >> count;
 
-    for(int i = 1; i <= count; i++){
+    for(int i = 1; i <= count; i++){ // dodawanie elementu
         cout << "Podaj "<<i<<" liczbe: ";
         cin >> element;
         arr_user.push_back(element);
     }
-    return arr_user;
+    return arr_user;//zwracanie tablicy
 
 }
 
@@ -114,22 +114,22 @@ void result_display(const vector<int>&arr) {
     cout << endl;
     cout <<"Po podziale poprzez algorytm 1: "<<endl;
     array_display(selection_v1(arr));
-    cout << "Sredni czas wykonania algorytmu 1: "<< timer(arr, selection_v1(arr),100) <<" nanosekund."<<endl;
+    cout << "Sredni czas wykonania algorytmu 1: "<< timer(arr, selection_v1,100) <<" nanosekund."<<endl;
     cout << endl;
     cout << "ALGORYTM 2"<<endl;
     cout << endl;
     cout <<"Po podziale poprzez algorytm 2: "<<endl;
     array_display(selection_v2(arr));
-    cout << "Sredni czas wykonania algorytmu 2: "<< timer(arr, selection_v2(arr),100) <<" nanosekund."<<endl;
+    cout << "Sredni czas wykonania algorytmu 2: "<< timer(arr, selection_v2,100) <<" nanosekund."<<endl;
     cout << endl;
 }
 
 //funkcja zapisujaca do pliku
 void write_to_file(vector<int>arr){
-    vector<int> alg1 = selection_v1(arr);
-    vector<int> alg2 = selection_v2(arr);
-    stringstream ss;
-    ofstream output;
+    vector<int> alg1 = selection_v1(arr); //zmienna algorytmu 1
+    vector<int> alg2 = selection_v2(arr); //zmienna algorytmu 2
+    stringstream ss; //obiekt klasy stringstream do dodawania ciagow znakow
+    ofstream output; //obiekt klasy ofstream do zapisu do pliku
 
     ss << "Przed podzialem: " << endl << "[";
     for(int i  = 0; i < arr.size(); i++){
@@ -146,7 +146,7 @@ void write_to_file(vector<int>arr){
         }
     }
     ss <<"]" << endl;
-    ss << "Sredni czas wykonania algorytmu 1 (srednia wartosc 100 prob): "<< timer(arr, selection_v1(arr),100) <<" nanosekund."<<endl;
+    ss << "Sredni czas wykonania algorytmu 1 (srednia wartosc 100 prob): "<< timer(arr, selection_v1,100) <<" nanosekund."<<endl;
     ss << "ALGORYTM 2"<< endl << "[";
     for(int i = 0; i < alg2.size(); i++){
         ss << alg2[i];
@@ -155,12 +155,12 @@ void write_to_file(vector<int>arr){
         }
     }
     ss << "]" << endl;
-    ss << "Sredni czas wykonania algorytmu 2 (srednia wartosc 100 prob): "<< timer(arr, selection_v2(arr),100) <<" nanosekund."<<endl;
-    string s = ss.str();
+    ss << "Sredni czas wykonania algorytmu 2 (srednia wartosc 100 prob): "<< timer(arr, selection_v2,100) <<" nanosekund."<<endl;
+    string s = ss.str(); // stringstream -> string
     output.open("output.txt");
     output << s;
     output.close();
-    cout << "Wynik zapisal sie w pliku output.txt w folderze cmake-build-debug";
+    cout << "Wynik zapisal sie w pliku output.txt w folderze cmake-build-debug"; //informacja o polozeniu pliku w projekcie
 }
 
 int main() {
@@ -172,6 +172,7 @@ int main() {
     int choice;
     int count;
 
+    //proste "menu"
     cout << "Witaj w programie wykonujacym algorytm przesuwania elementow ujemnych tablicy na koniec."<<endl;
     cout << endl;
     cout << "Wybierz co chcesz zrobic:" <<endl;
