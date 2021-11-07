@@ -1,8 +1,8 @@
 Przed podzialem: 
-[63, -73, 82, 67, -75, 94, 83, -56, 27, -39, -81, 9, -45, -63, 9, 99, 92, 100, 93, 94, -69, 45, 95, 97, 92, -78, -3, 60, 60, -41]
+[63, -73, 82, 67, -75, 94, 83, -56]
 ALGORYTM 1
-[63, 82, 67, 94, 83, 27, 9, 9, 99, 92, 100, 93, 94, 45, 95, 97, 92, 60, 60, -73, -75, -56, -39, -81, -45, -63, -69, -78, -3, -41]
-Sredni czas wykonania algorytmu 1 (srednia wartosc 100 prob): 2303 nanosekund.
+[63, 82, 67, 94, 83, -73, -75, -56]
+Sredni czas wykonania algorytmu 1 (srednia wartosc 100 prob): 1248 nanosekund.
 ALGORYTM 2
-[63, 82, 67, 94, 83, 27, 9, 9, 99, 92, 100, 93, 94, 45, 95, 97, 92, 60, 60, -73, -75, -56, -39, -81, -45, -63, -69, -78, -3, -41]
-Sredni czas wykonania algorytmu 2 (srednia wartosc 100 prob): 2231 nanosekund.
+[63, 82, 67, 94, 83, -73, -75, -56]
+Sredni czas wykonania algorytmu 2 (srednia wartosc 100 prob): 1259 nanosekund.

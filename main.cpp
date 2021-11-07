@@ -160,6 +160,7 @@ void write_to_file(vector<int>arr){
     output.open("output.txt");
     output << s;
     output.close();
+    cout << "Wynik zapisal sie w pliku output.txt w folderze cmake-build-debug";
 }
 
 int main() {
