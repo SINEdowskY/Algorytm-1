@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/kub20/CLionProjects/selection_v1_vector_version/main.cpp
+iostream
+-
+vector
+-
+chrono
+-
+random
+-
+fstream
+-
+sstream
+-
+
