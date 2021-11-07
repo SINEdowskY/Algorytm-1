@@ -17,7 +17,7 @@ Dla zadanej tablicy liczb calkowitych przesun wszystkie elementy mniejsze od 0 n
 
 using namespace std;
 
-//algorytm -realizacja naiwna
+//algorytm 1 -realizacja poprzez nowa tablice
 vector<int> selection_v1(vector<int> arr){
     vector<int> arr_sorted; //tablica wyjsciowa
 
@@ -33,34 +33,33 @@ vector<int> selection_v1(vector<int> arr){
     }
     return arr_sorted; //zwracanie tablicy wyjsciowej
 }
-//algorytm - druga realizacja naiwna
-vector<int> selection_v2(const vector<int>& arr){
-    vector<int> arr_plus; //tablica liczb nieujemnych
-    vector<int> arr_minus; //tablica liczb ujemnych
 
-    for(int i : arr){ //dodawanie liczb nieujemnych do tablicy arr_plus
-        if(i >= 0){
-            arr_plus.push_back(i);
-        }
-        else { // dodawanie liczb ujemnych do tablicy arr_minus
-            arr_minus.push_back(i);
+//algorytm 1 - realizacja poprzez swap()
+vector<int> selection_v2(vector<int> arr){
+    int count = 1;
+    for(int i = 0; i < arr.size()-1; i++){
+        if(arr[i] < 0){
+            if(arr[i+1] < 0){
+                count += 1;
+            }
+            if(arr[i] < 0 && arr[i+1] >= 0  && i < arr.size()-1) {
+                for(int j = 0; j < count; j++){
+                    swap(arr[i-j],arr[i+1-j]);
+                }
+            }
         }
     }
-    for(int i : arr_minus){ //dodawanie liczb z tablicy arr_minus do tablicy arr_plus
-        arr_plus.push_back(i);
-    }
-    return arr_plus; //zwracanie tablicy wyjsciowej
+    return arr;
 }
-
 //funkcja obliczajaca czas wykonania algorytmu
-double timer(const vector<int>& arr,const function<vector<int>(vector<int>)> algorithm,int count){
-    double sum = 0; //zmienna dla sumy czasow wykonania algorytmu
+long double timer(const vector<int>& arr,const function<vector<int>(vector<int>)> algorithm,int count){
+    long double sum = 0; //zmienna dla sumy czasow wykonania algorytmu
     for(int i = 0; i <= count; i++){
         auto startA = chrono::steady_clock::now(); //start zegara
         algorithm(arr); // wybrany wczesniej algorytm
         auto stopA = chrono::steady_clock::now(); //stop zegara
         auto durationA = stopA - startA; //roznica czasow
-        sum += chrono::duration<double, nano> (durationA).count(); //zmiennoprzecinkowe zapisanie do zmiennej
+        sum += chrono::duration<long double, nano> (durationA).count(); //zmiennoprzecinkowe zapisanie do zmiennej
     }
     return sum/count; //zwracanie sredniej czasow
 }
