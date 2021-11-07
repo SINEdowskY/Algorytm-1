@@ -107,18 +107,18 @@ vector<int> array_by_user(){
 //funkcja wyswietlajaca wyniki
 void result_display(const vector<int>&arr) {
     cout << "Przed podzialem: " <<endl;
-    //array_display(arr);
+    array_display(arr);
     cout << endl;
     cout << "ALGORYTM 1"<<endl;
     cout << endl;
     cout <<"Po podziale poprzez algorytm 1: "<<endl;
-    //array_display(selection_v1(arr));
+    array_display(selection_v1(arr));
     cout << "Sredni czas wykonania algorytmu 1: "<< timer(arr, selection_v1,100) <<" nanosekund."<<endl;
     cout << endl;
     cout << "ALGORYTM 2"<<endl;
     cout << endl;
     cout <<"Po podziale poprzez algorytm 2: "<<endl;
-    //array_display(selection_v2(arr));
+    array_display(selection_v2(arr));
     cout << "Sredni czas wykonania algorytmu 2: "<< timer(arr, selection_v2,100) <<" nanosekund."<<endl;
     cout << endl;
 }
