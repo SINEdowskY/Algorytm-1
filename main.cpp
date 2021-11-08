@@ -18,15 +18,15 @@ Dla zadanej tablicy liczb calkowitych przesun wszystkie elementy mniejsze od 0 n
 using namespace std;
 
 //algorytm 1 -realizacja poprzez nowa tablice
-vector<int> selection_v1(vector<int> arr){
+vector<int> algorithm_v1(vector<int> arr){
     vector<int> arr_sorted; //tablica wyjsciowa
 
-    for(int i : arr){ //dodawanie elementów nieujemnych do tablicy
+    for (int i : arr) { //dodawanie elementów nieujemnych do tablicy
         if (i >= 0) {
             arr_sorted.push_back(i);
         }
     }
-    for(int i : arr){ //dodawanie elementów ujemnych do tablicy
+    for (int i : arr) { //dodawanie elementów ujemnych do tablicy
         if (i < 0) {
             arr_sorted.push_back(i);
         }
@@ -35,26 +35,28 @@ vector<int> selection_v1(vector<int> arr){
 }
 
 //algorytm 1 - realizacja poprzez swap()
-vector<int> selection_v2(vector<int> arr){
+vector<int> algorithm_v2(vector<int> arr){
     int count = 1; // ilosc wykonan funkcji swap()
-    for(int i = 0; i < arr.size()-1; i++){
-        if(arr[i] < 0){
-            if(arr[i+1] < 0){
+    for ( int i = 0; i < arr.size()-1; i++ ){
+        if ( arr[i] < 0 ){
+            if ( arr[i+1] < 0 ) {
                 count += 1;
             }
-            else if(arr[i+1] >= 0){
-                for(int j = 0; j < count; j++){
-                    swap(arr[i-j],arr[i+1-j]);
+            else if ( arr[i+1] >= 0 ){
+                for ( int j = 0; j < count; j++ ){
+                    swap( arr[i-j],arr[i+1-j] );
                 }
             }
         }
     }
     return arr;
 }
+
 //funkcja obliczajaca czas wykonania algorytmu
 long double timer(const vector<int>& arr,const function<vector<int>(vector<int>)> algorithm,int count){
     long double sum = 0; //zmienna dla sumy czasow wykonania algorytmu
-    for(int i = 0; i <= count; i++){
+
+    for( int i = 0; i <= count; i++ ){
         auto startA = chrono::steady_clock::now(); //start zegara
         algorithm(arr); // wybrany wczesniej algorytm
         auto stopA = chrono::steady_clock::now(); //stop zegara
@@ -87,7 +89,7 @@ void array_display(const vector<int>& arr){
     cout << "]"<<endl;
 }
 
-//funkcja tworzaca tablice wedle uznania
+//funkcja tworzaca tablice przez uzytkownika
 vector<int> array_by_user(){
     int count; //zmienna rozmiaru tablicy
     int element;//zmienna elementu
@@ -112,21 +114,21 @@ void result_display(const vector<int>&arr) {
     cout << "ALGORYTM 1"<<endl;
     cout << endl;
     cout <<"Po podziale poprzez algorytm 1: "<<endl;
-    array_display(selection_v1(arr));
-    cout << "Sredni czas wykonania algorytmu 1: "<< timer(arr, selection_v1,100) <<" nanosekund."<<endl;
+    array_display(algorithm_v1(arr));
+    cout << "Sredni czas wykonania algorytmu 1: "<< timer(arr, algorithm_v1,100) <<" nanosekund."<<endl;
     cout << endl;
     cout << "ALGORYTM 2"<<endl;
     cout << endl;
     cout <<"Po podziale poprzez algorytm 2: "<<endl;
-    array_display(selection_v2(arr));
-    cout << "Sredni czas wykonania algorytmu 2: "<< timer(arr, selection_v2,100) <<" nanosekund."<<endl;
+    array_display(algorithm_v2(arr));
+    cout << "Sredni czas wykonania algorytmu 2: "<< timer(arr, algorithm_v2,100) <<" nanosekund."<<endl;
     cout << endl;
 }
 
 //funkcja zapisujaca do pliku
 void write_to_file(vector<int>arr){
-    vector<int> alg1 = selection_v1(arr); //zmienna algorytmu 1
-    vector<int> alg2 = selection_v2(arr); //zmienna algorytmu 2
+    vector<int> alg1 = algorithm_v1(arr); //zmienna algorytmu 1
+    vector<int> alg2 = algorithm_v2(arr); //zmienna algorytmu 2
     stringstream ss; //obiekt klasy stringstream do dodawania ciagow znakow
     ofstream output; //obiekt klasy ofstream do zapisu do pliku
 
@@ -145,7 +147,7 @@ void write_to_file(vector<int>arr){
         }
     }
     ss <<"]" << endl;
-    ss << "Sredni czas wykonania algorytmu 1 (srednia wartosc 100 prob): "<< timer(arr, selection_v1,100) <<" nanosekund."<<endl;
+    ss << "Sredni czas wykonania algorytmu 1 (srednia wartosc 100 prob): "<< timer(arr, algorithm_v1,100) <<" nanosekund."<<endl;
     ss << "ALGORYTM 2"<< endl << "[";
     for(int i = 0; i < alg2.size(); i++){
         ss << alg2[i];
@@ -154,7 +156,7 @@ void write_to_file(vector<int>arr){
         }
     }
     ss << "]" << endl;
-    ss << "Sredni czas wykonania algorytmu 2 (srednia wartosc 100 prob): "<< timer(arr, selection_v2,100) <<" nanosekund."<<endl;
+    ss << "Sredni czas wykonania algorytmu 2 (srednia wartosc 100 prob): "<< timer(arr, algorithm_v2,100) <<" nanosekund."<<endl;
     string s = ss.str(); // stringstream -> string
     output.open("output.txt");
     output << s;
@@ -163,9 +165,9 @@ void write_to_file(vector<int>arr){
 }
 
 int main() {
-    vector<int> A = {-10,5,8,-4,1,3,0,-7}; // Przyklad 1
-    vector<int> B = {92,-32,8,-121,55,32,34,-23,0}; //Przyklad 2
-    vector<int> C = {-29,-30,20,10,60,-38,-489,892,829,-894,2516,72637,-9400};//Przyklad 3
+    static vector<int> A = {-10,5,8,-4,1,3,0,-7}; // Przyklad 1
+    static vector<int> B = {92,-32,8,-121,55,32,34,-23,0}; //Przyklad 2
+    static vector<int> C = {-29,-30,20,10,60,-38,-489,892,829,-894,2516,72637,-9400};//Przyklad 3
     vector<int> user;
     vector<int> random_arr;
     int choice;
