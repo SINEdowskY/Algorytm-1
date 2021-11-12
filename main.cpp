@@ -67,10 +67,10 @@ long double timer(const vector<int>& arr,const function<vector<int>(vector<int>)
 }
 
 //funkcja generujaca tablice z losowymi liczbami calkowitymi
-vector<int> array_generator(int count){
+vector<int> array_generator(int count, int min, int max){
     vector<int> arr;
     random_device generator; //obiekt klasy random_device
-    uniform_int_distribution<int> myUnifIntDist(-100,100); //nadanie przedzialu liczb
+    uniform_int_distribution<int> myUnifIntDist(min,max); //nadanie przedzialu liczb
     for(int i = 0; i <= count-1; i++){ //dodawanie losowych elementow z przedzialu
         arr.push_back(myUnifIntDist(generator));
     }
@@ -165,45 +165,65 @@ void write_to_file(vector<int>arr){
 }
 
 int main() {
-    static vector<int> A = {-10,5,8,-4,1,3,0,-7}; // Przyklad 1
-    static vector<int> B = {92,-32,8,-121,55,32,34,-23,0}; //Przyklad 2
-    static vector<int> C = {-29,-30,20,10,60,-38,-489,892,829,-894,2516,72637,-9400};//Przyklad 3
+    static vector<int> A = {-10, 5, 8, -4, 1, 3, 0, -7}; // Przyklad 1
+    static vector<int> B = {92, -32, 8, -121, 55, 32, 34, -23, 0}; //Przyklad 2
+    static vector<int> C = {-29, -30, 20, 10, 60, -38, -489, 892, 829, -894, 2516, 72637, -9400};//Przyklad 3
     vector<int> user;
     vector<int> random_arr;
     int choice;
     int count;
+    int min;
+    int max;
+    bool min_max_test = false;
+    bool menu_loop = false;
 
     //proste "menu"
-    cout << "Witaj w programie wykonujacym algorytm przesuwania elementow ujemnych tablicy na koniec."<<endl;
+    cout << "Witaj w programie wykonujacym algorytm przesuwania elementow ujemnych tablicy na koniec." << endl;
     cout << endl;
-    cout << "Wybierz co chcesz zrobic:" <<endl;
+    cout << "Wybierz co chcesz zrobic:" << endl;
     cout << "1. Przyklady" << endl;
     cout << "2. Wlasna tablica" << endl;
     cout << "3. Tablica losowa" << endl;
     cin >> choice;
 
-    switch(choice){
-        case 1:
-            result_display(A);
-            result_display(B);
-            result_display(C);
-            break;
-        case 2:
-            user = array_by_user();
-            result_display(user);
-            write_to_file(user);
-            break;
-        case 3:
-            cout << "Podaj rozmiar tablicy do wygenerowania: ";
-            cin >> count;
-            random_arr = array_generator(count);
-            result_display(random_arr);
-            write_to_file(random_arr);
-            break;
-        default:
-            break;
+    while (!menu_loop) {
+        switch (choice) {
+            case 1:
+                result_display(A);
+                result_display(B);
+                result_display(C);
+                menu_loop = true;
+                break;
+            case 2:
+                user = array_by_user();
+                result_display(user);
+                write_to_file(user);
+                menu_loop = true;
+                break;
+            case 3:
+                cout << "Podaj rozmiar tablicy do wygenerowania: ";
+                cin >> count;
+                while (!min_max_test) {
+                    cout << endl << "Podaj dolna granice zakresu (min): ";
+                    cin >> min;
+                    cout << endl << "Podaj gorna granice zakresu (max): ";
+                    cin >> max;
+                    if (min < max) {
+                        random_arr = array_generator(count, min, max);
+                        result_display(random_arr);
+                        write_to_file(random_arr);
+                        min_max_test = true;
+                        menu_loop = true;
+                    } else {
+                        cout << "Dolna granica musi byc nizsza od gornej. Podaj zakres jeszcze raz." << endl;
+                    }
+                }
+                break;
+            default:
+                break;
+
+        }
+
 
     }
-
-
 }
