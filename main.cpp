@@ -42,7 +42,7 @@ vector<int> algorithm_v2(vector<int> arr){
             if ( arr[i+1] < 0 ) {
                 count += 1;
             }
-            else if ( arr[i+1] >= 0 ){
+            else{
                 for ( int j = 0; j < count; j++ ){
                     swap( arr[i-j],arr[i+1-j] );
                 }
